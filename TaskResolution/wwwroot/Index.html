@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="studentApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Management</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="~/wwwroot/js/StudentController.js"></script>
+</head>
+<body ng-controller="StudentController">
+    <h1>Student Management</h1>
+
+    <h2>Add Student</h2>
+    <form ng-submit="createStudent()">
+        <input type="text" ng-model="newStudent.firstName" placeholder="First Name" required />
+        <input type="text" ng-model="newStudent.midName" placeholder="Middle Name" />
+        <input type="text" ng-model="newStudent.lastName" placeholder="Last Name" required />
+        <input type="date" ng-model="newStudent.birthDate" placeholder="Birth Date" required />
+        <button type="submit">Add Student</button>
+    </form>
+
+    <h2>Student List</h2>
+    <ul>
+        <li ng-repeat="student in students">
+            {{student.code}} {{student.firstName}} {{student.midName}} {{student.lastName}} ({{student.birthDate | date:'shortDate'}})
+            <button ng-click="updateStudent(student)">Update</button>
+            <button ng-click="deleteStudent(student.id)">Delete</button>
+        </li>
+    </ul>
+</body>
+</html>

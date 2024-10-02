@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Students";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Adjust layout path as needed
+}
+
+<h2>Students</h2>
+
+<div ng-app="studentApp" ng-controller="StudentController">
+    <div class="error-message" ng-if="errorMessage">
+        <span style="color:red;">{{errorMessage}}</span>
+    </div>
+
+    <!-- Form to create a new student -->
+    <form ng-submit="createStudent()">
+        <h3>Add New Student</h3>
+        <div>
+            <label for="number">Student Number:</label>
+            <input type="text" ng-model="newStudent.number" required />
+        </div>
+        <div>
+            <label for="firstName">First Name:</label>
+            <input type="text" ng-model="newStudent.firstName" required />
+        </div>
+        <div>
+            <label for="midName">Middle Name:</label>
+            <input type="text" ng-model="newStudent.midName" />
+        </div>
+        <div>
+            <label for="lastName">Last Name:</label>
+            <input type="text" ng-model="newStudent.lastName" required />
+        </div>
+        <div>
+            <label for="birthDate">Birth Date:</label>
+            <input type="date" ng-model="newStudent.birthDate" required />
+        </div>
+        <div>
+            <label for="subjects">Subjects:</label>
+            <select ng-model="selectedSubject"
+                    ng-options="subject.code as subject.name for subject in allSubjects"
+                    ng-change="addSubjectToStudent(newStudent.number, selectedSubject)">
+                <option value="">Select a Subject</option>
+            </select>
+        </div>
+        <button type="submit">Add Student</button>
+    </form>
+
+    <!-- List of Students -->
+    <h3>Student List</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Birth Date</th>
+                <th>Subjects</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="student in students">
+                <td>{{student.number}}</td>
+                <td>{{student.firstName}}</td>
+                <td>{{student.midName}}</td>
+                <td>{{student.lastName}}</td>
+                <td>{{student.birthDate | date:'yyyy-MM-dd'}}</td>
+                <td>
+                    <ul>
+                        <li ng-repeat="subject in student.subjects">{{subject.name}}</li>
+                    </ul>
+                </td>
+                <td>
+                    <button ng-click="getStudentByNumber(student.number)">View</button>
+                    <button ng-click="deleteStudent(student.number)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="~/js/StudentController.js"></script>
+}
